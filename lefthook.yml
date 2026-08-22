@@ -1,0 +1,10 @@
+pre-commit:
+  parallel: true
+  commands:
+    oxlint:
+      glob: "*.{js,jsx,ts,tsx}"
+      run: pnpm exec oxlint {staged_files}
+
+    prettier:
+      glob: "*.{js,jsx,ts,tsx,json,css,md}"
+      run: pnpm exec prettier --write {staged_files}
