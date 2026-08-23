@@ -1,0 +1,21 @@
+{
+  "recommended_model": "Chronos2",
+  "pretrained_id": "amazon/chronos-2",
+  "mode": "zero-shot (no fine-tuning performed)",
+  "context_window_days": null,
+  "forecast_horizon_days": 28,
+  "quantile_levels": [
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9
+  ],
+  "leaderboard_wape": 0.604808764760343,
+  "selected_via": "3-fold rolling-origin backtest, 280-series stratified M5 sample, window chosen empirically in Phase 7 (see results/window_selection_pilot.csv)",
+  "notes": "Zero-shot foundation model: nothing is fit on this store's data at export time. Re-run pipe.predict_df() on the current inventory-linked sales history at inference time."
+}

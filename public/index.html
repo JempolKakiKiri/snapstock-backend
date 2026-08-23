@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snaptock OCR - Uji Coba Cerdas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-animation">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <main class="glass-container">
+        <header>
+            <h1>Snaptock OCR</h1>
+            <p>Ekstraksi data nota secara otomatis dengan kecerdasan buatan.</p>
+        </header>
+
+        <section class="upload-section" id="drop-zone">
+            <input type="file" id="file-input" accept="image/*" hidden>
+            <div class="upload-content">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="upload-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <p class="primary-text">Klik atau Tarik foto nota ke sini</p>
+                <p class="secondary-text">Mendukung format JPG, PNG</p>
+            </div>
+            <img id="image-preview" alt="Preview Nota" class="hidden">
+        </section>
+
+        <button id="upload-btn" class="btn-primary" disabled>Proses Nota</button>
+
+        <section id="loading" class="hidden">
+            <div class="spinner"></div>
+            <p>Menganalisis gambar...</p>
+        </section>
+
+        <section id="result-section" class="hidden">
+            <h2>Hasil Ekstraksi</h2>
+            <div class="table-container">
+                <table id="result-table">
+                    <thead>
+                        <tr>
+                            <th>Nama Barang</th>
+                            <th>Harga (Rp)</th>
+                            <th>Qty</th>
+                            <th>Subtotal (Rp)</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="result-body">
+                        <!-- Hasil akan dimuat di sini -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="summary">
+                <p>Total Terbaca: <strong id="total-price">Rp 0</strong></p>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
