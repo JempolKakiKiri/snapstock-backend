@@ -61,12 +61,10 @@ export const uploadNotes = async (req, res) => {
     });
   } catch (error) {
     console.error('Upload Notes Error:', error);
-    res
-      .status(500)
-      .json({
-        status: 'error',
-        message: error.message || 'Internal server error',
-      });
+    res.status(500).json({
+      status: 'error',
+      message: error.message || 'Internal server error',
+    });
   }
 };
 
@@ -144,11 +142,9 @@ export const getRecommendations = async (req, res) => {
     });
   } catch (error) {
     console.error('Recommendations Error:', error);
-    res
-      .status(500)
-      .json({
-        status: 'error',
-        message: error.message || 'Internal server error',
-      });
+    res.status(500).json({
+      status: 'error',
+      message: error.message || 'Internal server error',
+    });
   }
 };
