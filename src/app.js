@@ -17,21 +17,24 @@ app.use(express.static('public'));
 app.use('/api', apiRoutes);
 
 app.get('/', (req, res) => {
-    res.send('Selamat datang di API Smart Restock UMKM!');
+  res.send('Selamat datang di API Smart Restock UMKM!');
 });
 
 app.get('/api/health', (req, res) => {
-    res.status(200).json({
-        status: 'success',
-        message: 'Smart Restock Backend is up and running!'
-    });
+  res.status(200).json({
+    status: 'success',
+    message: 'Smart Restock Backend is up and running!',
+  });
 });
 
-sequelize.sync({ alter: true }).then(() => {
+sequelize
+  .sync({ alter: true })
+  .then(() => {
     console.log('Database synced successfully');
     app.listen(PORT, () => {
-        console.log(`Server is running on http://localhost:${PORT}`);
+      console.log(`Server is running on http://localhost:${PORT}`);
     });
-}).catch((err) => {
+  })
+  .catch((err) => {
     console.error('Unable to connect to the database:', err);
-});
+  });
