@@ -9,7 +9,7 @@ export const uploadNotes = async (req, res) => {
         }
 
         const mlResponse = await parseNotesImage(req.file.buffer, req.file.originalname);
-        
+
         if (!mlResponse || !mlResponse.items) {
             return res.status(500).json({ status: 'error', message: 'Invalid response from ML service' });
         }
@@ -18,27 +18,33 @@ export const uploadNotes = async (req, res) => {
         const processedItems = [];
 
         for (const item of items) {
+            const qty = item.qty || 1;
+            const price = item.harga || 0;
+
             const [product, created] = await Product.findOrCreate({
-                where: { name: item.name },
+                where: { name: item.nama },
                 defaults: {
-                    price: item.price,
-                    current_stock: item.qty
+                    price: price,
+                    current_stock: qty
                 }
             });
 
             if (!created) {
-                product.current_stock += item.qty;
+                product.current_stock += qty;
                 await product.save();
             }
 
             await Transaction.create({
                 product_id: product.id,
                 type: 'IN',
-                quantity: item.qty,
+                quantity: qty,
                 transaction_date: new Date()
             });
 
-            processedItems.push(product);
+            processedItems.push({
+                ...product.toJSON(),
+                receipt_qty: qty
+            });
         }
 
         res.status(200).json({
@@ -97,7 +103,7 @@ export const getRecommendations = async (req, res) => {
                 });
                 runout_days = mlResponse.runout_days || mlResponse.runout_days === 0 ? mlResponse.runout_days : null;
             } else {
-                runout_days = 0; 
+                runout_days = 0;
             }
 
             const recommended_restock_qty = product.max_threshold - product.current_stock;
