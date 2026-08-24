@@ -1,5 +1,9 @@
 import axios from 'axios';
 import FormData from 'form-data';
+import { exec } from 'child_process';
+import util from 'util';
+
+const execPromise = util.promisify(exec);
 
 export const parseNotesImage = async (fileBuffer, originalName) => {
   try {
@@ -23,11 +27,19 @@ export const parseNotesImage = async (fileBuffer, originalName) => {
 
 export const predictRunout = async (historicalData) => {
   try {
-    const response = await axios.post(process.env.ML_PREDICT_URL, {
-      data: historicalData,
-    });
+    const dataStr = JSON.stringify(historicalData);
+    const escapedDataStr = dataStr.replace(/'/g, "'\\''");
 
-    return response.data;
+    const command = `cd ml/scripts && source venv/bin/activate && python3 inference_tsb.py '${escapedDataStr}'`;
+
+    const { stdout } = await execPromise(command);
+
+    const response = JSON.parse(stdout.trim());
+    if (response.status === 'error') {
+      throw new Error(response.message);
+    }
+
+    return response;
   } catch (error) {
     console.error('Error in predictRunout:', error.message);
     throw new Error('Failed to get prediction from ML Service');

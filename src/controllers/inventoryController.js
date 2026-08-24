@@ -113,6 +113,7 @@ export const getRecommendations = async (req, res) => {
         const mlResponse = await predictRunout({
           product_id: product.id,
           product_name: product.name,
+          current_stock: product.current_stock,
           history: historicalData,
         });
         runout_days =
