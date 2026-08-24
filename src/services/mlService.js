@@ -26,22 +26,22 @@ export const parseNotesImage = async (fileBuffer, originalName) => {
 };
 
 export const predictRunout = async (historicalData) => {
-    try {
-        const dataStr = JSON.stringify(historicalData);
-        const escapedDataStr = dataStr.replace(/'/g, "'\\''");
-        
-        const command = `cd ml/scripts && source venv/bin/activate && python3 inference_tsb.py '${escapedDataStr}'`;
-        
-        const { stdout } = await execPromise(command);
-        
-        const response = JSON.parse(stdout.trim());
-        if (response.status === 'error') {
-            throw new Error(response.message);
-        }
-        
-        return response;
-    } catch (error) {
-        console.error('Error in predictRunout:', error.message);
-        throw new Error('Failed to get prediction from ML Service');
+  try {
+    const dataStr = JSON.stringify(historicalData);
+    const escapedDataStr = dataStr.replace(/'/g, "'\\''");
+
+    const command = `cd ml/scripts && source venv/bin/activate && python3 inference_tsb.py '${escapedDataStr}'`;
+
+    const { stdout } = await execPromise(command);
+
+    const response = JSON.parse(stdout.trim());
+    if (response.status === 'error') {
+      throw new Error(response.message);
     }
+
+    return response;
+  } catch (error) {
+    console.error('Error in predictRunout:', error.message);
+    throw new Error('Failed to get prediction from ML Service');
+  }
 };
