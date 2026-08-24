@@ -14,3 +14,4 @@ yarn-error.log*
 ocr-service/models/
 ml/scripts/venv
 ml/venv/
+package-lock.json
