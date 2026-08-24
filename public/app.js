@@ -8,6 +8,13 @@ const resultSection = document.getElementById('result-section');
 const resultBody = document.getElementById('result-body');
 const totalPriceEl = document.getElementById('total-price');
 
+// Prediksi Elements
+const predictBtn = document.getElementById('predict-btn');
+const predictLoading = document.getElementById('predict-loading');
+const predictionSection = document.getElementById('prediction-section');
+const predictionBody = document.getElementById('prediction-body');
+const backBtn = document.getElementById('back-btn');
+
 let currentFile = null;
 
 // Handle Drag and Drop
@@ -54,6 +61,7 @@ function handleFile(file) {
 
     // Reset results
     resultSection.classList.add('hidden');
+    predictionSection.classList.add('hidden');
   };
   reader.readAsDataURL(file);
 }
@@ -135,3 +143,81 @@ function renderResults(items) {
   // Smooth scroll to results
   resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+
+// Handle Predict Button
+predictBtn.addEventListener('click', async () => {
+  // Hide current sections
+  dropZone.classList.add('hidden');
+  uploadBtn.classList.add('hidden');
+  resultSection.classList.add('hidden');
+
+  // Show loading
+  predictLoading.classList.remove('hidden');
+
+  try {
+    const response = await fetch('/api/inventory/top-recommendations');
+    const result = await response.json();
+
+    if (response.ok) {
+      renderPredictions(result.data);
+    } else {
+      alert('Gagal memproses prediksi: ' + (result.message || 'Server Error'));
+      // Revert UI on error
+      resultSection.classList.remove('hidden');
+      dropZone.classList.remove('hidden');
+      uploadBtn.classList.remove('hidden');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('Terjadi kesalahan saat menghubungi server ML.');
+    resultSection.classList.remove('hidden');
+    dropZone.classList.remove('hidden');
+    uploadBtn.classList.remove('hidden');
+  } finally {
+    predictLoading.classList.add('hidden');
+  }
+});
+
+function renderPredictions(items) {
+  predictionBody.innerHTML = '';
+
+  if (!items || items.length === 0) {
+    predictionBody.innerHTML =
+      '<tr><td colspan="4" style="text-align: center">Tidak ada barang yang perlu di-restock</td></tr>';
+  } else {
+    items.forEach((item) => {
+      const runoutText =
+        item.runout_days === 0
+          ? 'Data kurang'
+          : item.runout_days === '>90'
+            ? '>90 Hari'
+            : `${item.runout_days} Hari`;
+      const statusClass =
+        item.runout_days && item.runout_days <= 7 && item.runout_days !== 0
+          ? 'status-danger'
+          : 'status-info';
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+                <td><strong>${item.name}</strong></td>
+                <td>${item.current_stock}</td>
+                <td><span class="status-badge ${statusClass}">${runoutText}</span></td>
+                <td><strong>${item.recommended_restock_qty}</strong></td>
+            `;
+      predictionBody.appendChild(tr);
+    });
+  }
+
+  predictionSection.classList.remove('hidden');
+  predictionSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Handle Back Button
+backBtn.addEventListener('click', () => {
+  predictionSection.classList.add('hidden');
+  dropZone.classList.remove('hidden');
+  uploadBtn.classList.remove('hidden');
+  resultSection.classList.remove('hidden');
+
+  // reset upload to clean slate? Let's just keep the OCR result visible
+});

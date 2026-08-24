@@ -10,7 +10,7 @@ export const parseNotesImage = async (fileBuffer, originalName) => {
     const formData = new FormData();
     formData.append('image', fileBuffer, originalName);
 
-    console.log('Sending request to ML_PARSER_URL:', process.env.ML_PARSER_URL);
+    // console.log('Sending request to ML_PARSER_URL:', process.env.ML_PARSER_URL);
     const response = await axios.post(process.env.ML_PARSER_URL, formData, {
       headers: {
         ...formData.getHeaders(),

@@ -60,6 +60,33 @@
             <div class="summary">
                 <p>Total Terbaca: <strong id="total-price">Rp 0</strong></p>
             </div>
+            
+            <button id="predict-btn" class="btn-primary" style="margin-top: 20px;">Prediksi Restock Terkritis</button>
+        </section>
+
+        <section id="predict-loading" class="hidden">
+            <div class="spinner"></div>
+            <p>Model AI sedang membaca riwayat & meramalkan penjualan...</p>
+        </section>
+
+        <section id="prediction-section" class="hidden">
+            <h2>5 Barang Paling Kritis (Top 5 Urgent Restocks)</h2>
+            <div class="table-container">
+                <table id="prediction-table">
+                    <thead>
+                        <tr>
+                            <th>Nama Barang</th>
+                            <th>Stok Saat Ini</th>
+                            <th>Prediksi Habis (Hari)</th>
+                            <th>Saran Restock (Pcs)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="prediction-body">
+                        <!-- Hasil prediksi akan dimuat di sini -->
+                    </tbody>
+                </table>
+            </div>
+            <button id="back-btn" class="btn-secondary" style="margin-top: 20px;">Kembali ke OCR</button>
         </section>
     </main>
 
