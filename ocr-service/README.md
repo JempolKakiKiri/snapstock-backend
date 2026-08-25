@@ -9,6 +9,11 @@ This is a standalone Python service. Your backend just makes an HTTP call to it
 — it does not matter what your backend is written in, or whether you use Docker
 for it.
 
+The fine-tuned recognizer is **not in this repository** — 114 MB is past
+GitHub's file limit. It lives on the Hub at
+[`nafisN14/snaptock`](https://huggingface.co/nafisN14/snaptock) and is fetched
+the first time the service starts. Nothing to download by hand.
+
 **With Docker** (recommended — you never install PaddlePaddle):
 
 ```bash
@@ -20,8 +25,18 @@ docker compose up --build
 ```bash
 pip install -r requirements.txt
 pip install paddlepaddle==3.0.0 paddleocr==3.7.0
-MODEL_DIR=models/rec uvicorn app:app --port 8001
+uvicorn app:app --port 8001
 ```
+
+First start pulls the weights (114 MB) and then loads the models, so give it a
+couple of minutes before the first request; `GET /health` tells you when it is
+ready. Later starts read the Hugging Face cache — under Docker that is the
+`hf-cache` volume, so it survives `docker compose down` and rebuilds.
+
+Have weights that are not published — a model you just trained? Point
+`MODEL_DIR` at the directory holding `inference.json`, `inference.pdiparams`
+and `inference.yml`. If all three are there they are used as-is and no download
+happens. `HF_REPO` and `HF_REVISION` override where the download comes from.
 
 Either way it listens on `http://localhost:8001`:
 
@@ -41,39 +56,25 @@ Health check: `GET /health`
 ```json
 {
   "items": [
-    {
-      "nama": "teh celup",
-      "qty": 2,
-      "harga": 5000,
-      "jumlah": 10000,
-      "confidence": 1.0,
-      "reconciled": true,
-      "warnings": []
-    },
-    {
-      "nama": "gula pasir",
-      "qty": 1,
-      "harga": 15000,
-      "jumlah": 15000,
-      "confidence": 0.97,
-      "reconciled": true,
-      "warnings": []
-    }
+    {"nama": "teh celup",  "qty": 2,  "harga": 5000,  "jumlah": 10000,
+     "confidence": 1.0,   "reconciled": true,  "warnings": []},
+    {"nama": "gula pasir", "qty": 1,  "harga": 15000, "jumlah": 15000,
+     "confidence": 0.97,  "reconciled": true,  "warnings": []}
   ],
-  "total": { "computed": 40000, "stated": 40000, "matches": true },
+  "total": {"computed": 40000, "stated": 40000, "matches": true},
   "warnings": [],
   "needs_review": false,
   "ms": 2019
 }
 ```
 
-| field                  | meaning                                                              |
-| ---------------------- | -------------------------------------------------------------------- |
-| `qty` `harga` `jumlah` | integers, rupiah. **`null` if unreadable** — check before saving     |
-| `confidence`           | 0–1, the weakest character in that row                               |
-| `reconciled`           | `qty × harga == jumlah` held                                         |
-| `needs_review`         | **the field to branch on** — true if any row needs a human           |
-| `total.stated`         | the "Jumlah Rp." on the receipt. `null` if unreadable, never guessed |
+| field | meaning |
+|---|---|
+| `qty` `harga` `jumlah` | integers, rupiah. **`null` if unreadable** — check before saving |
+| `confidence` | 0–1, the weakest character in that row |
+| `reconciled` | `qty × harga == jumlah` held |
+| `needs_review` | **the field to branch on** — true if any row needs a human |
+| `total.stated` | the "Jumlah Rp." on the receipt. `null` if unreadable, never guessed |
 
 Errors: `400` empty upload · `413` over 12 MB · `415` unreadable image ·
 `422` no text detected.
@@ -93,20 +94,51 @@ Latency is 2–5 s per nota on CPU, synchronous.
 
 Measured on 1,023 held-out crops the model never trained on:
 
-|                             | error rate |
-| --------------------------- | ---------- |
-| digits (qty, harga, jumlah) | **0.21%**  |
-| letters (product names)     | **1.28%**  |
-| whole crop exact match      | **98.14%** |
+| | held-out real receipts | unseen layouts |
+|---|---|---|
+| digits (qty, harga, jumlah) | **0.13%** | **0.00%** |
+| letters (product names) | **1.08%** | **0.16%** |
+| character error, overall | **0.48%** | **0.06%** |
+| whole crop exact match | **98.24%** | **99.86%** |
+
+"Unseen layouts" means nota with column orders the model never trained on —
+a different supplier's form.
 
 ## Files
 
-|               |                                                           |
-| ------------- | --------------------------------------------------------- |
-| `app.py`      | the API: routes, upload limits, model loading             |
-| `pipeline.py` | detection → crop → recognition → columns → reconciliation |
-| `models/rec/` | the fine-tuned model (114 MB, not in git)                 |
-| `fixtures/`   | mock response, used when `MOCK=1`                         |
+| | |
+|---|---|
+| `app.py` | the API: routes, upload limits, model loading |
+| `geometry.py` | levels the page, turns it the right way up, cuts each line out square |
+| `layout.py` | discovers the table: columns by clustering, roles by arithmetic |
+| `pipeline.py` | rows → reconciled line items → the response above |
+| `models/rec/` | optional local weights; empty by default, the Hub copy is used |
+| `fixtures/` | mock response, used when `MOCK=1` |
 
-Only recognition is a trained model. Field assignment is geometric — the nota
-booklet is a fixed printed template — and reconciliation is arithmetic.
+## Photos taken at any angle
+
+A nota is usually photographed in the hand, on a desk, often turned sideways.
+The recognizer only reads horizontal text, so orientation is fixed before
+anything is read — and it is fixed without a second model:
+
+- the detector returns one quadrilateral per text line, and text lines run along
+  the writing direction, so the average edge angle of those quads **is** the page
+  angle. That levels tilt and all four quarter turns.
+- an angle cannot tell upright from upside down. That last bit is settled by
+  reading the longest few lines both ways and keeping whichever the recognizer
+  is more confident about.
+- each line is then warped onto a rectangle rather than cropped to its bounding
+  box, so a slanted line no longer drags in the paper and the lines beside it.
+
+Only recognition is a trained model. Table structure is **discovered per
+document**, not assumed: columns are found by clustering box positions, and
+which column is `harga` versus `jumlah` is decided by whichever assignment
+makes `qty × harga = jumlah` hold across the rows. That means a different
+supplier's template works without recalibration.
+
+The same arithmetic settles a problem no clustering can reach. The detector
+sometimes swallows the quantity cell into the name cell, so `2 kg gula pasir`
+arrives as one text line — by then it is a single box. The parser splits the
+leading count off, reads the receipt both ways, and keeps whichever way adds
+up. A thousands separator (`67.500`) is not a count, and `2 kg` on its own is
+not an item called `kg`; both are rejected before the split is scored.

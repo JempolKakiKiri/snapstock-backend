@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="bde38fff-0a4d-4e12-8fde-8bcd30823bfe" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml/scripts/inference_tsb.py" beforeDir="false" afterPath="$PROJECT_DIR$/ml/scripts/inference_tsb.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml/scripts/inspect_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/ml/scripts/inspect_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ocr-service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/ocr-service/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ocr-service/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/ocr-service/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ocr-service/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/ocr-service/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ocr-service/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/ocr-service/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ocr-service/fixtures/sample_response.json" beforeDir="false" afterPath="$PROJECT_DIR$/ocr-service/fixtures/sample_response.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ocr-service/models.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ocr-service/pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/ocr-service/pipeline.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ocr-service/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ocr-service/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/seeders/dummySeeder.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/seeders/dummySeeder.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/mlService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/mlService.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotChats">
+    <option name="panelChat">
+      <chat>
+        <option name="activeSessionId" value="6969b999-1152-49fb-8e7a-c772c09487e0" />
+        <option name="sessions">
+          <session>
+            <option name="chatType" value="PANEL" />
+            <option name="id" value="6969b999-1152-49fb-8e7a-c772c09487e0" />
+            <option name="modeId" value="Ask" />
+            <option name="modelType" value="builtin_family" />
+            <option name="modelValue" value="auto" />
+            <option name="targetType" value="LOCAL" />
+          </session>
+        </option>
+        <option name="type" value="PANEL" />
+      </chat>
+    </option>
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_D:/Lomba/Compfest/snapstock-backend" value="3IPnv5ofjz5uTAyPLwLxdqLkJVC" />
+      <entry key="_D:/Lomba/snapstock-backend" value="3IPCnHZQW9mck0R1C8z5KwL2JdG" />
+    </persistenceIdMap>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="3IPCnHZQW9mck0R1C8z5KwL2JdG" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "development",
+    "javascript.preferred.runtime.type.id": "node",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "D:/Lomba/Compfest/snapstock-backend",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "pnpm",
+    "prettierjs.PrettierConfiguration.Package": "D:\\Lomba\\snapstock-backend\\node_modules\\prettier",
+    "settings.editor.selected.configurable": "CodeWithMe",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-WS-261.24374.125" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bde38fff-0a4d-4e12-8fde-8bcd30823bfe" name="Changes" comment="" />
+      <created>1756793687150</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1756793687150</updated>
+      <workItem from="1756793695790" duration="637000" />
+      <workItem from="1787656984933" duration="8033000" />
+      <workItem from="1787675299626" duration="468000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>

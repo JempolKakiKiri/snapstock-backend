@@ -1,0 +1,378 @@
+{
+  "seed": 42,
+  "skus": 200,
+  "days": 180,
+  "horizon_days": 14,
+  "folds": 3,
+  "grid": [
+    0.05,
+    0.1,
+    0.15,
+    0.2,
+    0.3,
+    0.4,
+    0.5
+  ],
+  "best_by_mase": "TSB_0.05_0.05",
+  "best_by_runout_mae": "CrostonSBA",
+  "shipped": "TSB_0.2_0.2",
+  "results": {
+    "TSB_0.05_0.05": {
+      "MASE": 0.930107,
+      "RMSSE": 2.606125,
+      "WAPE": 0.760484,
+      "runout_MAE_days": 7.591631,
+      "seeds_won": 1
+    },
+    "TSB_0.1_0.05": {
+      "MASE": 0.931398,
+      "RMSSE": 2.606499,
+      "WAPE": 0.765882,
+      "runout_MAE_days": 7.598469,
+      "seeds_won": 0
+    },
+    "TSB_0.05_0.1": {
+      "MASE": 0.932122,
+      "RMSSE": 2.617458,
+      "WAPE": 0.763796,
+      "runout_MAE_days": 8.380875,
+      "seeds_won": 0
+    },
+    "TSB_0.1_0.1": {
+      "MASE": 0.933302,
+      "RMSSE": 2.617643,
+      "WAPE": 0.769246,
+      "runout_MAE_days": 8.430864,
+      "seeds_won": 0
+    },
+    "TSB_0.05_0.15": {
+      "MASE": 0.933358,
+      "RMSSE": 2.628177,
+      "WAPE": 0.767174,
+      "runout_MAE_days": 9.170677,
+      "seeds_won": 0
+    },
+    "TSB_0.05_0.2": {
+      "MASE": 0.934314,
+      "RMSSE": 2.638938,
+      "WAPE": 0.770446,
+      "runout_MAE_days": 9.899084,
+      "seeds_won": 0
+    },
+    "TSB_0.1_0.15": {
+      "MASE": 0.934547,
+      "RMSSE": 2.628303,
+      "WAPE": 0.772678,
+      "runout_MAE_days": 9.220706,
+      "seeds_won": 0
+    },
+    "TSB_0.15_0.05": {
+      "MASE": 0.934877,
+      "RMSSE": 2.608672,
+      "WAPE": 0.773186,
+      "runout_MAE_days": 7.776628,
+      "seeds_won": 0
+    },
+    "TSB_0.1_0.2": {
+      "MASE": 0.935599,
+      "RMSSE": 2.639115,
+      "WAPE": 0.776048,
+      "runout_MAE_days": 9.966266,
+      "seeds_won": 0
+    },
+    "TSB_0.05_0.3": {
+      "MASE": 0.93622,
+      "RMSSE": 2.661989,
+      "WAPE": 0.776595,
+      "runout_MAE_days": 11.222853,
+      "seeds_won": 0
+    },
+    "TSB_0.15_0.1": {
+      "MASE": 0.936551,
+      "RMSSE": 2.619946,
+      "WAPE": 0.77633,
+      "runout_MAE_days": 8.619177,
+      "seeds_won": 0
+    },
+    "TSB_0.1_0.3": {
+      "MASE": 0.937676,
+      "RMSSE": 2.662535,
+      "WAPE": 0.782252,
+      "runout_MAE_days": 11.270357,
+      "seeds_won": 0
+    },
+    "TSB_0.15_0.15": {
+      "MASE": 0.937774,
+      "RMSSE": 2.630826,
+      "WAPE": 0.779749,
+      "runout_MAE_days": 9.421164,
+      "seeds_won": 0
+    },
+    "TSB_0.2_0.05": {
+      "MASE": 0.938683,
+      "RMSSE": 2.611101,
+      "WAPE": 0.780675,
+      "runout_MAE_days": 7.98376,
+      "seeds_won": 0
+    },
+    "TSB_0.15_0.2": {
+      "MASE": 0.938841,
+      "RMSSE": 2.641914,
+      "WAPE": 0.783156,
+      "runout_MAE_days": 10.118566,
+      "seeds_won": 1
+    },
+    "TSB_0.05_0.4": {
+      "MASE": 0.938921,
+      "RMSSE": 2.688212,
+      "WAPE": 0.7824,
+      "runout_MAE_days": 12.211006,
+      "seeds_won": 0
+    },
+    "TSB_0.2_0.1": {
+      "MASE": 0.940135,
+      "RMSSE": 2.622524,
+      "WAPE": 0.783638,
+      "runout_MAE_days": 8.835429,
+      "seeds_won": 0
+    },
+    "TSB_0.1_0.4": {
+      "MASE": 0.94082,
+      "RMSSE": 2.689403,
+      "WAPE": 0.788262,
+      "runout_MAE_days": 12.28876,
+      "seeds_won": 0
+    },
+    "TSB_0.15_0.3": {
+      "MASE": 0.94111,
+      "RMSSE": 2.666047,
+      "WAPE": 0.789527,
+      "runout_MAE_days": 11.406253,
+      "seeds_won": 0
+    },
+    "TSB_0.2_0.15": {
+      "MASE": 0.94132,
+      "RMSSE": 2.633627,
+      "WAPE": 0.787046,
+      "runout_MAE_days": 9.592035,
+      "seeds_won": 0
+    },
+    "TSB_0.2_0.2": {
+      "MASE": 0.942378,
+      "RMSSE": 2.644986,
+      "WAPE": 0.79046,
+      "runout_MAE_days": 10.282859,
+      "seeds_won": 0
+    },
+    "TSB_0.05_0.5": {
+      "MASE": 0.943602,
+      "RMSSE": 2.718289,
+      "WAPE": 0.78856,
+      "runout_MAE_days": 13.056959,
+      "seeds_won": 1
+    },
+    "TSB_0.15_0.4": {
+      "MASE": 0.944459,
+      "RMSSE": 2.693851,
+      "WAPE": 0.795575,
+      "runout_MAE_days": 12.41863,
+      "seeds_won": 0
+    },
+    "TSB_0.2_0.3": {
+      "MASE": 0.944601,
+      "RMSSE": 2.669804,
+      "WAPE": 0.796713,
+      "runout_MAE_days": 11.545699,
+      "seeds_won": 0
+    },
+    "TSB_0.3_0.05": {
+      "MASE": 0.945509,
+      "RMSSE": 2.615985,
+      "WAPE": 0.793746,
+      "runout_MAE_days": 8.484766,
+      "seeds_won": 0
+    },
+    "TSB_0.1_0.5": {
+      "MASE": 0.945981,
+      "RMSSE": 2.720267,
+      "WAPE": 0.794566,
+      "runout_MAE_days": 13.176434,
+      "seeds_won": 0
+    },
+    "TSB_0.3_0.1": {
+      "MASE": 0.946566,
+      "RMSSE": 2.627665,
+      "WAPE": 0.796374,
+      "runout_MAE_days": 9.303034,
+      "seeds_won": 0
+    },
+    "TSB_0.3_0.15": {
+      "MASE": 0.947494,
+      "RMSSE": 2.639143,
+      "WAPE": 0.799522,
+      "runout_MAE_days": 9.984581,
+      "seeds_won": 0
+    },
+    "TSB_0.2_0.4": {
+      "MASE": 0.948071,
+      "RMSSE": 2.698512,
+      "WAPE": 0.802726,
+      "runout_MAE_days": 12.542591,
+      "seeds_won": 0
+    },
+    "TSB_0.3_0.2": {
+      "MASE": 0.948425,
+      "RMSSE": 2.650958,
+      "WAPE": 0.802765,
+      "runout_MAE_days": 10.65262,
+      "seeds_won": 0
+    },
+    "TSB_0.15_0.5": {
+      "MASE": 0.949911,
+      "RMSSE": 2.725828,
+      "WAPE": 0.801947,
+      "runout_MAE_days": 13.312156,
+      "seeds_won": 0
+    },
+    "TSB_0.3_0.3": {
+      "MASE": 0.950336,
+      "RMSSE": 2.676969,
+      "WAPE": 0.808548,
+      "runout_MAE_days": 11.832726,
+      "seeds_won": 0
+    },
+    "TSB_0.4_0.05": {
+      "MASE": 0.951366,
+      "RMSSE": 2.620886,
+      "WAPE": 0.804791,
+      "runout_MAE_days": 9.013953,
+      "seeds_won": 0
+    },
+    "TSB_0.4_0.1": {
+      "MASE": 0.952202,
+      "RMSSE": 2.632764,
+      "WAPE": 0.807215,
+      "runout_MAE_days": 9.763324,
+      "seeds_won": 0
+    },
+    "TSB_0.4_0.15": {
+      "MASE": 0.952821,
+      "RMSSE": 2.644525,
+      "WAPE": 0.810041,
+      "runout_MAE_days": 10.425153,
+      "seeds_won": 0
+    },
+    "TSB_0.4_0.2": {
+      "MASE": 0.953505,
+      "RMSSE": 2.656696,
+      "WAPE": 0.812976,
+      "runout_MAE_days": 11.048896,
+      "seeds_won": 0
+    },
+    "TSB_0.2_0.5": {
+      "MASE": 0.953603,
+      "RMSSE": 2.731577,
+      "WAPE": 0.809045,
+      "runout_MAE_days": 13.450029,
+      "seeds_won": 0
+    },
+    "TSB_0.3_0.4": {
+      "MASE": 0.95372,
+      "RMSSE": 2.707285,
+      "WAPE": 0.814244,
+      "runout_MAE_days": 12.805882,
+      "seeds_won": 0
+    },
+    "TSB_0.4_0.3": {
+      "MASE": 0.955202,
+      "RMSSE": 2.683672,
+      "WAPE": 0.818525,
+      "runout_MAE_days": 12.138438,
+      "seeds_won": 0
+    },
+    "TSB_0.5_0.05": {
+      "MASE": 0.956994,
+      "RMSSE": 2.625972,
+      "WAPE": 0.815397,
+      "runout_MAE_days": 9.560919,
+      "seeds_won": 0
+    },
+    "TSB_0.5_0.1": {
+      "MASE": 0.957566,
+      "RMSSE": 2.637995,
+      "WAPE": 0.817545,
+      "runout_MAE_days": 10.259017,
+      "seeds_won": 0
+    },
+    "TSB_0.5_0.15": {
+      "MASE": 0.957887,
+      "RMSSE": 2.649968,
+      "WAPE": 0.820044,
+      "runout_MAE_days": 10.876127,
+      "seeds_won": 0
+    },
+    "TSB_0.4_0.4": {
+      "MASE": 0.958294,
+      "RMSSE": 2.715316,
+      "WAPE": 0.823801,
+      "runout_MAE_days": 13.10232,
+      "seeds_won": 0
+    },
+    "TSB_0.5_0.2": {
+      "MASE": 0.958358,
+      "RMSSE": 2.662417,
+      "WAPE": 0.82275,
+      "runout_MAE_days": 11.474137,
+      "seeds_won": 0
+    },
+    "TSB_0.3_0.5": {
+      "MASE": 0.959274,
+      "RMSSE": 2.742312,
+      "WAPE": 0.820403,
+      "runout_MAE_days": 13.683012,
+      "seeds_won": 0
+    },
+    "TSB_0.5_0.3": {
+      "MASE": 0.959787,
+      "RMSSE": 2.69017,
+      "WAPE": 0.828032,
+      "runout_MAE_days": 12.465897,
+      "seeds_won": 0
+    },
+    "TSB_0.5_0.4": {
+      "MASE": 0.962565,
+      "RMSSE": 2.722883,
+      "WAPE": 0.832969,
+      "runout_MAE_days": 13.427632,
+      "seeds_won": 0
+    },
+    "TSB_0.4_0.5": {
+      "MASE": 0.963683,
+      "RMSSE": 2.751965,
+      "WAPE": 0.829626,
+      "runout_MAE_days": 13.964146,
+      "seeds_won": 0
+    },
+    "TSB_0.5_0.5": {
+      "MASE": 0.967774,
+      "RMSSE": 2.76082,
+      "WAPE": 0.838487,
+      "runout_MAE_days": 14.27929,
+      "seeds_won": 0
+    },
+    "CrostonSBA": {
+      "MASE": 0.984773,
+      "RMSSE": 2.608723,
+      "WAPE": 0.765174,
+      "runout_MAE_days": 6.822285,
+      "seeds_won": 0
+    },
+    "SeasonalNaive": {
+      "MASE": 1.093321,
+      "RMSSE": 3.14662,
+      "WAPE": 0.983719,
+      "runout_MAE_days": 11.572793,
+      "seeds_won": 0
+    }
+  }
+}

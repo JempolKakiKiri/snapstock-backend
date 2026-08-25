@@ -4,8 +4,8 @@ const seed = async () => {
   try {
     await sequelize.sync();
     console.log('Database connected. Membersihkan data lama...');
-    await Transaction.destroy({ where: {} }); // Hapus semua transaksi
-    await Product.destroy({ where: {} }); // Hapus semua produk
+    await Transaction.destroy({ where: {} });
+    await Product.destroy({ where: {} });
 
     console.log('Membuat 3 produk utama (tehcelup, kopisachet, gulapasir)...');
 

@@ -1,7 +1,7 @@
 import joblib
 import sys
-import os
 import json
+import os
 import pandas as pd
 from statsforecast import StatsForecast
 
@@ -23,30 +23,29 @@ def main():
         df['ds'] = pd.to_datetime(df['date']).dt.normalize()
         df['y'] = df['qty'].astype(float)
         
-        # Resample to daily to fill missing dates with 0 (krusial untuk TSB intermittent demand)
+        # Resample to daily to fill missing dates with 0
         df = df.groupby('ds')['y'].sum().reset_index()
         # Ensure contiguous date range
         full_idx = pd.date_range(df['ds'].min(), df['ds'].max())
         df = df.set_index('ds').reindex(full_idx, fill_value=0).reset_index()
         df.columns = ['ds', 'y']
-        df['unique_id'] = 'item' # Wajib untuk StatsForecast
-        
-        # Load the TSB model parameters
+        df['unique_id'] = 'item'
 
+        # Load the TSB model parameters
         model_path = os.path.join(os.path.dirname(__file__), "final_model_TSB.joblib")
         model_dict = joblib.load(model_path)
         tsb_model = model_dict['model']
-        
+
         # Initialize StatsForecast wrapper
         sf = StatsForecast(
             models=[tsb_model],
             freq='D',
             n_jobs=1
         )
-        
+
         # Predict next 90 days
         forecast = sf.forecast(h=90, df=df)
-        
+
         # Accumulate forecasted daily demand until stock runs out
         preds = forecast['TSB'].values
         runout_days = None
@@ -57,7 +56,7 @@ def main():
             if cumulative_demand >= current_stock:
                 runout_days = i + 1
                 break
-                
+
         # Jika dalam 90 hari stok belum habis
         if runout_days is None:
             runout_days = ">90"

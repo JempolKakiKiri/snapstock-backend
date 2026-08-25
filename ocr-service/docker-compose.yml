@@ -1,6 +1,6 @@
 # Standalone compose for the OCR service. When the full app comes together,
 # fold this service into the repo-root docker-compose.yml that the rulebook
-# requires, alongside the Express API and the Next.js frontend.
+# requires, alongside the Express API and the frontend.
 
 services:
   ocr:
@@ -8,13 +8,20 @@ services:
     ports:
       - "8001:8001"
     environment:
-      # MOCK=1 serves fixtures with no model and no paddle. The backend can be
-      # built entirely against this while the model is still training.
-      MOCK: "1"
+      # MOCK=1 serves fixtures with no model, no download and no paddle. The
+      # backend can be built entirely against it.
+      MOCK: "${MOCK:-0}"
+      # The fine-tuned recognizer, fetched from the Hub on first start.
+      HF_REPO: "${HF_REPO:-nafisN14/snaptock}"
+      HF_HOME: /app/.cache/huggingface
+      # Points at nothing by default, so the Hub copy is used. Set it to a
+      # mounted directory to run weights that are not published.
       MODEL_DIR: /app/models/rec
       REC_MODEL_NAME: PP-OCRv5_mobile_rec
     volumes:
-      # Weights live outside git. Drop the three exported files in ./models/rec
-      # (inference.json, inference.pdiparams, inference.yml).
-      - ./models:/app/models:ro
+      # Keeps the 114 MB download across restarts and rebuilds.
+      - hf-cache:/app/.cache/huggingface
     restart: unless-stopped
+
+volumes:
+  hf-cache:

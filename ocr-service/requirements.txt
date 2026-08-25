@@ -2,8 +2,11 @@ fastapi>=0.115
 uvicorn[standard]>=0.32
 python-multipart>=0.0.9
 pillow>=10.0
+# Fetches the fine-tuned recognizer at first start. Not needed when MOCK=1, or
+# when MODEL_DIR already holds an export.
+huggingface-hub>=0.26
 
 # Real inference only — not needed when MOCK=1.
 # paddlepaddle must match your platform; the CPU wheel is what ships in Docker.
 # paddlepaddle==3.0.0
-# paddleocr==3.7.0
+# paddleocr==3.7.0        # brings opencv, which geometry.py needs

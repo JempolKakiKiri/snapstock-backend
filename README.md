@@ -7,7 +7,7 @@ Aplikasi ini menggabungkan Node.js (Express) sebagai _backend_ utama dengan _scr
 Sebelum memulai, pastikan laptopmu sudah ter-install:
 
 1. **Node.js** (v18 atau lebih baru)
-2. **PNPM versi 11.13.0** (Package Manager: `npm install -g pnpm@11.13.0`)
+2. **PNPM atau NPM** (Package Manager: `npm install -g pnpm`)
 3. **Python 3.9+** (untuk menjalankan model Machine Learning)
 4. **MySQL** (Server database harus menyala)
 
@@ -15,18 +15,19 @@ Sebelum memulai, pastikan laptopmu sudah ter-install:
 
 ## Cara Instalasi & Menjalankan (Local)
 
-### 1. Clone Repository & Setup Environtment
+### 1. Setup Backend (Node.js)
+
+Buka terminal di _root_ folder proyek ini, lalu jalankan:
 
 ```bash
-git clone <https://github.com/JempolKakiKiri/snapstock-backend.git>
-cd snaptock-backend
-```
+# Install semua dependensi Node.js
+pnpm install atau npm install
 
-```
+# Buat file .env (kamu bisa copy dari .env.example jika ada)
 touch .env
 ```
 
-Isi file `.env` dengan konfigurasi _database_ ini:
+Isi file `.env` dengan konfigurasi _database_ lokalmu:
 
 ```env
 PORT=3000
@@ -37,84 +38,80 @@ DB_NAME=snapstock_db
 ML_PARSER_URL=http://localhost:8001/parse-notes
 ```
 
-Download file **`models.zip`** dari Link Google Drive Berikut
+### 2. Setup Database & Data Sintetis
 
-```
-https://drive.google.com/file/d/1KlS04EvprMVF0QOvGFpY4N8XkM2Xx_Yb/view?usp=sharing
-```
-
-Ekstrak file tersebut, lalu pindahkan folder `models` ke dalam direktori `ocr-service/`. (Pastikan strukturnya menjadi `ocr-service/models/rec/`).
-
-### 2. Setup Database & Backend Utama (Node.js)
-
-Pastikan kamu sudah menyalakan MySQL (XAMPP/Laragon) dan membuat database kosong bernama `snapstock_db`.
+Pastikan kamu sudah membuat _database_ kosong bernama `snapstock_db` di MySQL (lewat phpMyAdmin atau DBeaver).
+Setelah itu, buat data transaksi sintetis (dummy) agar model AI punya data untuk dianalisis:
 
 ```bash
-# Install semua dependensi Node.js
-pnpm install
-
-# (Opsional) Buat data transaksi sintetis agar AI punya data analisis
 node src/seeders/transactionSeeder.js
 ```
 
-### 3. Setup ML Service (Python - Prediksi TSB)
+_(Perintah ini juga akan otomatis membuatkan tabel-tabel yang dibutuhkan)._
 
-Karena Node.js akan mengeksekusi Python secara otomatis di latar belakang, buat _Virtual Environment_ (venv) khusus di folder `ml/scripts`.
+### 3. Setup Python Virtual Environment (Untuk Prediksi TSB)
 
-**Mac/Linux:**
+Karena _backend_ akan mengeksekusi Python secara otomatis di latar belakang, kita wajib membuat _Virtual Environment_ (venv) tepat di folder `ml/scripts`.
+
+**Untuk Mac/Linux:**
 
 ```bash
 cd ml/scripts
 python3 -m venv venv
 source venv/bin/activate
-pip install pandas joblib statsforecast
+pip install statsforecast pandas numpy joblib
 cd ../..
 ```
 
-**Windows (PowerShell):**
+**Untuk Windows:**
 
-```powershell
+```bash
 cd ml\scripts
 python -m venv venv
-.\venv\Scripts\activate
-pip install pandas joblib statsforecast
+venv\Scripts\activate
+pip install statsforecast pandas numpy joblib
 cd ..\..
 ```
 
-### 4. Setup Layanan OCR (Python - PaddleOCR)
+### 4. Menjalankan Layanan OCR
 
-Agar fitur upload nota berfungsi, kita perlu menjalankan server OCR di terminal terpisah.
+Agar fitur _upload_ nota berfungsi, layanan OCR (FastAPI) harus menyala di terminal terpisah.
 
-**Mac/Linux:**
+Model hasil _fine-tuning_ **tidak disimpan di repositori ini** (114 MB, melebihi batas file GitHub). Model diunduh otomatis dari [`nafisN14/snaptock`](https://huggingface.co/nafisN14/snaptock) saat layanan pertama kali dijalankan — tidak ada file yang perlu diunduh manual.
 
 ```bash
 cd ocr-service
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-pip install paddlepaddle==3.0.0 paddleocr==3.7.0
-python3 -m uvicorn app:app --host 0.0.0.0 --port 8001
+docker compose up --build
 ```
 
-**Windows (PowerShell):**
+Tanpa Docker (Python 3.10+):
 
-```powershell
+```bash
 cd ocr-service
-python -m venv venv
-.\venv\Scripts\activate
 pip install -r requirements.txt
 pip install paddlepaddle==3.0.0 paddleocr==3.7.0
-python -m uvicorn app:app --host 0.0.0.0 --port 8001
+uvicorn app:app --host 0.0.0.0 --port 8001
 ```
+
+Jalankan pertama kali akan mengunduh bobot model (114 MB) lalu memuatnya, jadi tunggu sekitar 2 menit sebelum request pertama — cek kesiapan lewat `GET /health`. Untuk membangun backend tanpa menunggu model, jalankan `MOCK=1 docker compose up`: responsnya memakai _fixture_ dengan skema yang persis sama.
 
 ### 5. Jalankan Aplikasi!
 
-Buka terminal **baru** (biarkan terminal OCR tetap jalan), arahkan ke folder utama project (sejajar `package.json`), lalu jalankan:
+Di terminal utama (di luar folder `ocr-service` dan `ml`), jalankan peladen Node.js:
 
 ```bash
-pnpm run dev
+pnpm run dev atau npm run dev
 ```
 
-Aplikasi siap diakses! Buka tautan `http://localhost:3000` untuk mengaktifkan layanan server Snaptock !
+Aplikasi siap diakses! Buka browsermu di `http://localhost:3000` untuk mencoba antarmukanya.
 
 ---
+
+## Fitur Prediksi Restock
+
+Saat tombol **"Prediksi Restock Terkritis"** ditekan di UI:
+
+1. Node.js akan mencari 5 barang yang sisa stoknya paling kritis (di bawah _min_threshold_).
+2. Menarik riwayat penjualan mereka selama 30 hari terakhir.
+3. Node.js memanggil _script_ `ml/scripts/inference_tsb.py` secara _background_ menggunakan `child_process`.
+4. Python mengolah data dan mengembalikan hari prediksi kapan stok barang habis (`runout_days`).

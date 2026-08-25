@@ -6,7 +6,7 @@ def inspect_model(filepath):
         print(f"Loading model from: {filepath}")
         model = joblib.load(filepath)
         print(f"Model Type: {type(model)}")
-        
+
         # Check for feature names in LightGBM booster or sklearn pipeline/estimator
         if hasattr(model, 'feature_name_'):
             features = model.feature_name_() if callable(model.feature_name_) else model.feature_name_
