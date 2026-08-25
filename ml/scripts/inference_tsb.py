@@ -33,6 +33,10 @@ def main():
         # Load the TSB model parameters
         model_dict = joblib.load("/Users/sulthanrps/Documents/snaptock-backend/ml/scripts/final_model_TSB.joblib")
         tsb_model = model_dict['model']
+
+        # model_path = os.path.join(os.path.dirname(_file_), "final_model_TSB.joblib")
+        # model_dict = joblib.load(model_path)
+        # tsb_model = model_dict['model']
         
         # Initialize StatsForecast wrapper
         sf = StatsForecast(

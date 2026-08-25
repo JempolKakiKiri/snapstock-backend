@@ -10,7 +10,6 @@ export const parseNotesImage = async (fileBuffer, originalName) => {
     const formData = new FormData();
     formData.append('image', fileBuffer, originalName);
 
-    // console.log('Sending request to ML_PARSER_URL:', process.env.ML_PARSER_URL);
     const response = await axios.post(process.env.ML_PARSER_URL, formData, {
       headers: {
         ...formData.getHeaders(),
@@ -25,12 +24,22 @@ export const parseNotesImage = async (fileBuffer, originalName) => {
   }
 };
 
+import os from 'os';
+
 export const predictRunout = async (historicalData) => {
   try {
     const dataStr = JSON.stringify(historicalData);
-    const escapedDataStr = dataStr.replace(/'/g, "'\\''");
 
-    const command = `cd ml/scripts && source venv/bin/activate && python3 inference_tsb.py '${escapedDataStr}'`;
+    const isWindows = os.platform() === 'win32';
+
+    let command;
+    if (isWindows) {
+      const escapedDataStr = dataStr.replace(/"/g, '\\"');
+      command = `cd ml/scripts && venv\\Scripts\\python.exe inference_tsb.py "${escapedDataStr}"`;
+    } else {
+      const escapedDataStr = dataStr.replace(/'/g, "'\\''");
+      command = `cd ml/scripts && venv/bin/python inference_tsb.py '${escapedDataStr}'`;
+    }
 
     const { stdout } = await execPromise(command);
 
