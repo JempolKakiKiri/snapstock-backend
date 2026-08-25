@@ -77,6 +77,7 @@ body {
   0% {
     transform: translate(0, 0) scale(1);
   }
+
   100% {
     transform: translate(50px, 50px) scale(1.1);
   }
@@ -104,6 +105,7 @@ body {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -306,4 +308,15 @@ tr:last-child td {
 .summary strong {
   color: var(--primary);
   font-size: 1.5rem;
+}
+
+#predict-loading {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+  padding: 20px;
 }
