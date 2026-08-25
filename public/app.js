@@ -214,10 +214,19 @@ function renderPredictions(items) {
 
 // Handle Back Button
 backBtn.addEventListener('click', () => {
+  // Sembunyikan halaman hasil prediksi dan tabel OCR lama
   predictionSection.classList.add('hidden');
-  dropZone.classList.remove('hidden');
-  uploadBtn.classList.remove('hidden');
-  resultSection.classList.remove('hidden');
+  resultSection.classList.add('hidden');
 
-  // reset upload to clean slate? Let's just keep the OCR result visible
+  // Kembalikan area upload ke state awal
+  dropZone.classList.remove('hidden');
+  uploadContent.classList.remove('hidden');
+  imagePreview.classList.add('hidden');
+  imagePreview.src = '';
+
+  // Reset file dan tombol
+  fileInput.value = '';
+  currentFile = null;
+  uploadBtn.disabled = true;
+  uploadBtn.classList.remove('hidden');
 });
