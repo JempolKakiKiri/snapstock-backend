@@ -7,7 +7,7 @@ Aplikasi ini menggabungkan Node.js (Express) sebagai _backend_ utama dengan _scr
 Sebelum memulai, pastikan laptopmu sudah ter-install:
 
 1. **Node.js** (v18 atau lebih baru)
-2. **PNPM atau NPM** (Package Manager: `npm install -g pnpm`)
+2. **PNPM versi 11.13.0** (Package Manager: `npm install -g pnpm@11.13.0`)
 3. **Python 3.9+** (untuk menjalankan model Machine Learning)
 4. **MySQL** (Server database harus menyala)
 
@@ -15,19 +15,18 @@ Sebelum memulai, pastikan laptopmu sudah ter-install:
 
 ## Cara Instalasi & Menjalankan (Local)
 
-### 1. Setup Backend (Node.js)
-
-Buka terminal di _root_ folder proyek ini, lalu jalankan:
+### 1. Clone Repository & Setup Environtment
 
 ```bash
-# Install semua dependensi Node.js
-pnpm install atau npm install
+git clone <https://github.com/JempolKakiKiri/snapstock-backend.git>
+cd snaptock-backend
+```
 
-# Buat file .env (kamu bisa copy dari .env.example jika ada)
+```
 touch .env
 ```
 
-Isi file `.env` dengan konfigurasi _database_ lokalmu:
+Isi file `.env` dengan konfigurasi _database_ ini:
 
 ```env
 PORT=3000
@@ -38,69 +37,84 @@ DB_NAME=snapstock_db
 ML_PARSER_URL=http://localhost:8001/parse-notes
 ```
 
-### 2. Setup Database & Data Sintetis
+Download file **`models.zip`** dari Link Google Drive Berikut
 
-Pastikan kamu sudah membuat _database_ kosong bernama `snapstock_db` di MySQL (lewat phpMyAdmin atau DBeaver).
-Setelah itu, buat data transaksi sintetis (dummy) agar model AI punya data untuk dianalisis:
+```
+https://drive.google.com/file/d/1KlS04EvprMVF0QOvGFpY4N8XkM2Xx_Yb/view?usp=sharing
+```
+
+Ekstrak file tersebut, lalu pindahkan folder `models` ke dalam direktori `ocr-service/`. (Pastikan strukturnya menjadi `ocr-service/models/rec/`).
+
+### 2. Setup Database & Backend Utama (Node.js)
+
+Pastikan kamu sudah menyalakan MySQL (XAMPP/Laragon) dan membuat database kosong bernama `snapstock_db`.
 
 ```bash
+# Install semua dependensi Node.js
+pnpm install
+
+# (Opsional) Buat data transaksi sintetis agar AI punya data analisis
 node src/seeders/transactionSeeder.js
 ```
 
-_(Perintah ini juga akan otomatis membuatkan tabel-tabel yang dibutuhkan)._
+### 3. Setup ML Service (Python - Prediksi TSB)
 
-### 3. Setup Python Virtual Environment (Untuk Prediksi TSB)
+Karena Node.js akan mengeksekusi Python secara otomatis di latar belakang, buat _Virtual Environment_ (venv) khusus di folder `ml/scripts`.
 
-Karena _backend_ akan mengeksekusi Python secara otomatis di latar belakang, kita wajib membuat _Virtual Environment_ (venv) tepat di folder `ml/scripts`.
-
-**Untuk Mac/Linux:**
+**Mac/Linux:**
 
 ```bash
 cd ml/scripts
 python3 -m venv venv
 source venv/bin/activate
-pip install statsforecast pandas numpy joblib
+pip install pandas joblib statsforecast
 cd ../..
 ```
 
-**Untuk Windows:**
+**Windows (PowerShell):**
 
-```bash
+```powershell
 cd ml\scripts
 python -m venv venv
-venv\Scripts\activate
-pip install statsforecast pandas numpy joblib
+.\venv\Scripts\activate
+pip install pandas joblib statsforecast
 cd ..\..
 ```
 
-### 4. Menjalankan Layanan OCR (Jika Ada)
+### 4. Setup Layanan OCR (Python - PaddleOCR)
 
-Agar fitur _upload_ nota berfungsi, pastikan layanan OCR (FastAPI) menyala di terminal terpisah.
+Agar fitur upload nota berfungsi, kita perlu menjalankan server OCR di terminal terpisah.
+
+**Mac/Linux:**
 
 ```bash
 cd ocr-service
+python3 -m venv venv
 source venv/bin/activate
-export MOCK=0
-uvicorn app:app --host 0.0.0.0 --port 8001
+pip install -r requirements.txt
+pip install paddlepaddle==3.0.0 paddleocr==3.7.0
+python3 -m uvicorn app:app --host 0.0.0.0 --port 8001
+```
+
+**Windows (PowerShell):**
+
+```powershell
+cd ocr-service
+python -m venv venv
+.\venv\Scripts\activate
+pip install -r requirements.txt
+pip install paddlepaddle==3.0.0 paddleocr==3.7.0
+python -m uvicorn app:app --host 0.0.0.0 --port 8001
 ```
 
 ### 5. Jalankan Aplikasi!
 
-Di terminal utama (di luar folder `ocr-service` dan `ml`), jalankan peladen Node.js:
+Buka terminal **baru** (biarkan terminal OCR tetap jalan), arahkan ke folder utama project (sejajar `package.json`), lalu jalankan:
 
 ```bash
-pnpm run dev atau npm run dev
+pnpm run dev
 ```
 
-Aplikasi siap diakses! Buka browsermu di `http://localhost:3000` untuk mencoba antarmukanya.
+Aplikasi siap diakses! Buka tautan `http://localhost:3000` untuk mengaktifkan layanan server Snaptock !
 
 ---
-
-## Fitur Prediksi Restock
-
-Saat tombol **"Prediksi Restock Terkritis"** ditekan di UI:
-
-1. Node.js akan mencari 5 barang yang sisa stoknya paling kritis (di bawah _min_threshold_).
-2. Menarik riwayat penjualan mereka selama 30 hari terakhir.
-3. Node.js memanggil _script_ `ml/scripts/inference_tsb.py` secara _background_ menggunakan `child_process`.
-4. Python mengolah data dan mengembalikan hari prediksi kapan stok barang habis (`runout_days`).
