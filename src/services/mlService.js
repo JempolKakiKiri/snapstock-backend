@@ -1,3 +1,4 @@
+import os from 'os';
 import axios from 'axios';
 import FormData from 'form-data';
 import { exec } from 'child_process';
@@ -23,8 +24,6 @@ export const parseNotesImage = async (fileBuffer, originalName) => {
     throw new Error('Failed to parse notes from ML Service');
   }
 };
-
-import os from 'os';
 
 export const predictRunout = async (historicalData) => {
   try {
